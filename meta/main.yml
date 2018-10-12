@@ -1,0 +1,22 @@
+galaxy_info:
+  author: Jeff Hibberd
+  description: configures postfix with aliases for root, and smtp smarthost that works for gmail with 2FA
+  company: jeffhibberd.com
+
+  license: GPLv3
+
+  min_ansible_version: 2.5
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - 18.04
+  - name: raspbian
+    versions:
+    - 9
+
+  galaxy_tags: 
+    - postfix
+
+dependencies: 
+  - geerlingguy.postfix

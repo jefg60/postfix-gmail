@@ -1,0 +1,40 @@
+---
+# tasks file for jefg60.postfix
+- name: deploy relay_passwords hashfile for postfix
+  template:
+    src: relay_passwords.j2
+    dest: "{{ postfix_relay_passwords_file }}"
+    mode: 0600
+    owner: root
+    group: root
+  notify: relaypasswords
+
+- name: set additional postfix config values
+  lineinfile:
+    dest: "{{ postfix_config_file }}"
+    line: "{{ item.name }} = {{ item.value }}"
+    regexp: "^{{ item.name }} ="
+  with_items:
+    - name: relayhost
+      value: "{{ postfix_relayhost }}"
+    - name: smtp_enforce_tls
+      value: "yes"
+    - name: smtp_sasl_auth_enable
+      value: "yes"
+    - name: smtp_sasl_password_maps
+      value: "hash:{{ postfix_relay_passwords_file }}"
+    - name: smtp_tls_CAfile
+      value: "{{ postfix_ca_certs }}"
+    - name: smtp_sasl_security_options
+      value: "noanonymous"
+  notify: restart postfix
+
+- name: create aliases
+  lineinfile:
+    dest: "{{ postfix_aliases_file }}"
+    line: "{{ item.key }}: {{ item.address }}"
+    regexp: "^{{ item.key }}:"
+  loop: "{{ lookup('dict', postfixaliases) }}"
+  notify:
+    - newaliases
+

@@ -1,0 +1,11 @@
+---
+# handlers file for jefg60.postfix
+- name: newaliases
+  command: newaliases
+  notify:
+    - restart postfix
+
+- name: relaypasswords
+  shell: "postmap {{ postfix_relay_passwords_file }}"
+  notify:
+    - restart postfix

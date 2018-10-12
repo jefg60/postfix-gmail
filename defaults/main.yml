@@ -1,0 +1,10 @@
+---
+# defaults file for jefg60.postfix
+postfix_config_file: "/etc/postfix/main.cf"
+postfix_aliases_file: "/etc/aliases"
+postfix_relay_passwords_file: "/etc/postfix/relay_passwords"
+postfix_relayhost: "[smtp.gmail.com]:587"
+#put postfix_relay_password in a vault file, or set this env instead
+postfix_relay_password: "{{ lookup('env','GMAILPOSTFIX') }}"
+postfix_relay_user: "test@example.com"
+postfix_ca_certs: "/etc/ssl/certs/ca-certificates.crt"
