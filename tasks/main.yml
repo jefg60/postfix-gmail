@@ -32,7 +32,7 @@
 - name: create aliases
   lineinfile:
     dest: "{{ postfix_aliases_file }}"
-    line: "{{ item.key }}: {{ item.addressalias }}"
+    line: "{{ item.key }}: {{ item.value.addressalias }}"
     regexp: "^{{ item.key }}:"
   loop: "{{ lookup('dict', postfixaliases) }}"
   notify:
