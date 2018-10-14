@@ -6,6 +6,6 @@
     - restart postfix
 
 - name: relaypasswords
-  shell: "postmap {{ postfix_relay_passwords_file }}"
+  command: "postmap {{ postfix_relay_passwords_file }}"
   notify:
     - restart postfix
