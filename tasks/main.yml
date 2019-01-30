@@ -27,6 +27,8 @@
       value: "{{ postfix_ca_certs }}"
     - name: smtp_sasl_security_options
       value: "noanonymous"
+    - name: inet_interfaces
+      value: "127.0.0.1"
   notify: restart postfix
 
 - name: create aliases
