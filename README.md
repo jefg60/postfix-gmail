@@ -1,38 +1,52 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Configures postfix on linux hosts to forward emails via a gmail account.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+You need a gmail account. You might need to create an app password for postfix to use with your gmail account, as per https://support.google.com/accounts/answer/185833?hl=en (you definitely will if using 2 factor auth).
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Defaults
+
+postfix_config_file: "/etc/postfix/main.cf"
+postfix_aliases_file: "/etc/aliases"
+postfix_relay_passwords_file: "/etc/postfix/relay_passwords"
+postfix_relayhost: "[smtp.gmail.com]:587"
+
+(put postfix_relay_password in a vault or set this env var instead)
+postfix_relay_password: "{{ lookup('env','GMAILPOSTFIX') }}"
+postfix_relay_user: "test@example.com"
+postfix_ca_certs: "/etc/ssl/certs/ca-certificates.crt"
+
+postfixaliases: (dict)
+(from geerlingguy.postfix dependency role)
+postfix_inet_interfaces: (IP)
+
+e.g:
+postfixaliases:
+  root:
+    addressalias: "test"
+  jeff:
+    addressalias: "test@example.com"
+postfix_inet_interfaces: 127.0.0.1
+
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- geerlingguy.postfix
 
 License
 -------
 
-BSD
+GPLv3
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+jeff@jeffhibberd.com
