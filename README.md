@@ -31,7 +31,7 @@ e.g:
 postfixaliases:
   root:
     addressalias: "test"
-  jeff:
+  test:
     addressalias: "test@example.com"
 postfix_inet_interfaces: 127.0.0.1
 ```
